@@ -2,46 +2,56 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { background: transparent; margin: 0; padding: 0; overflow: hidden; font-family: sans-serif; }
         .container {
             display: flex;
             flex-direction: column;
-            gap: 58px; /* A2, A3 အကွက်ထဲဝင်အောင် gap ကို 58px သို့ တိုးထားသည် */
-            padding-top: 45px; /* A1 အကွက်ထဲဝင်အောင် padding-top ကို 45px သို့ လျှော့ထားသည် */
+            gap: 65px; /* A2, A3 အကွက်ထဲဝင်အောင် ညှိထားသည် */
+            padding-top: 85px; /* A1 အကွက်ထဲဝင်အောင် အမြင့်ကို တိုးထားသည် */
             align-items: center;
         }
-        .item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 380px;
-        }
-        .title { font-size: 18px; color: #333; font-weight: bold; margin-bottom: 3px; }
-        .val { font-size: 75px; font-weight: bold; line-height: 0.9; }
+        .item { display: flex; flex-direction: column; align-items: center; width: 400px; }
+        .title { font-size: 18px; color: #333; font-weight: bold; margin-bottom: 5px; }
+        .val { font-size: 80px; font-weight: bold; line-height: 1; }
     </style>
     <script>
         const sheetID = '1WTAqnW15uaT_Cr-9pcr8zTlBxCM6WXm3yV2dK4Iymlg';
-        const csvURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
-        async function updateData() {
+        const csvURL = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv`;
+
+        async function update() {
             try {
-                const response = await fetch(csvURL + '&cache_bus=' + Date.now());
-                const text = await response.text();
-                const rows = text.split('\n').map(v => v.replace(/"/g, '').trim());
-                document.getElementById('v1').innerText = rows[0] || '---';
-                document.getElementById('v2').innerText = rows[1] || '--';
-                document.getElementById('v3').innerText = rows[2] || '--';
-            } catch (error) {}
+                const r = await fetch(csvURL + '&t=' + Date.now());
+                const t = await r.text();
+                // Google Sheet ထဲက ပထမဆုံး Column က ဂဏန်း ၃ ခုကို ဆွဲယူသည်
+                const rows = t.split('\n').map(row => row.split(',')[0].replace(/"/g, '').trim()).filter(v => v !== "");
+                
+                // စာသားပါနေရင် ဖယ်ထုတ်ပြီး ဂဏန်းသက်သက် ယူရန်
+                const data = rows.filter(v => !isNaN(v.replace(/[^0-9]/g, '')));
+
+                document.getElementById('v1').innerText = data[0] || '---';
+                document.getElementById('v2').innerText = data[1] || '--';
+                document.getElementById('v3').innerText = data[2] || '--';
+            } catch (e) { console.error(e); }
         }
-        setInterval(updateData, 3000);
-        updateData();
+        setInterval(update, 3000);
+        update();
     </script>
 </head>
 <body>
     <div class="container">
         <div class="item">
-            <div class="title" style="color: #ffffff; text-shadow: 1px 1px 3px rgba(0,0,0,0.9);">ဟော့ထိပ်စီး</div>
-            <div id="
-                
+            <div class="title" style="color: #ffffff; text-shadow: 1px 1px 2px #000;">ဟော့ထိပ်စီး</div>
+            <div id="v1" class="val" style="color: #ffffff; text-shadow: 2px 2px 5px rgba(0,0,0,0.9);">---</div>
+        </div>
+        <div class="item">
+            <div class="title">11:00AM</div>
+            <div id="v2" class="val" style="color: #ffff00; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);">--</div>
+        </div>
+        <div class="item">
+            <div class="title">3:00PM</div>
+            <div id="v3" class="val" style="color: #00ffff; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);">--</div>
+        </div>
+    </div>
+</body>
+</html>
