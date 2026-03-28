@@ -2,13 +2,14 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { background: transparent; margin: 0; padding: 0; overflow: hidden; font-family: sans-serif; }
         .container {
             display: flex;
             flex-direction: column;
-            gap: 65px; /* အဖြူကွက်ကြား အကွာအဝေး */
-            padding-top: 45px;
+            gap: 70px; /* အဖြူကွက်ကြား အကွာအဝေး */
+            padding-top: 50px;
             align-items: center;
         }
         .item {
@@ -18,8 +19,40 @@
             justify-content: center;
             width: 350px;
         }
-        /* ခေါင်းစဉ်စာသား အရွယ်အစားနှင့် အရောင် */
         .title { font-size: 18px; color: #333; font-weight: bold; margin-bottom: 2px; }
-        /* ဂဏန်းစာသား အရွယ်အစား */
-        .val { font-size: 75px; font-
-              
+        .val { font-size: 75px; font-weight: bold; line-height: 0.8; }
+    </style>
+    <script>
+        const sheetID = '1WTAqnW15uaT_Cr-9pcr8zTlBxCM6WXm3yV2dK4Iymlg';
+        const csvURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
+        async function update() {
+            try {
+                const r = await fetch(csvURL + '&c=' + Date.now());
+                const t = await r.text();
+                const rows = t.split('\n').map(v => v.replace(/"/g, '').trim());
+                document.getElementById('v1').innerText = rows[0] || '---';
+                document.getElementById('v2').innerText = rows[1] || '--';
+                document.getElementById('v3').innerText = rows[2] || '--';
+            } catch (e) { console.log(e); }
+        }
+        setInterval(update, 3000);
+        update();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="item">
+            <div class="title">ဟော့ထိပ်စီး</div>
+            <div id="v1" class="val" style="color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">---</div>
+        </div>
+        <div class="item">
+            <div class="title">11:00AM</div>
+            <div id="v2" class="val" style="color: #ffff00; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">--</div>
+        </div>
+        <div class="item">
+            <div class="title">3:00PM</div>
+            <div id="v3" class="val" style="color: #00ffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">--</div>
+        </div>
+    </div>
+</body>
+</html>
