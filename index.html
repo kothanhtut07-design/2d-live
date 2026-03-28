@@ -2,14 +2,13 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { background: transparent; margin: 0; padding: 0; overflow: hidden; font-family: sans-serif; }
         .container {
             display: flex;
             flex-direction: column;
-            gap: 70px; /* အဖြူကွက်ကြား အကွာအဝေး */
-            padding-top: 50px;
+            gap: 72px; /* အဖြူကွက်ကြား အကွာအဝေး - လိုအပ်ရင် ဒါလေးကိုပဲ ပြောင်းပါ */
+            padding-top: 55px;
             align-items: center;
         }
         .item {
@@ -33,7 +32,7 @@
                 document.getElementById('v1').innerText = rows[0] || '---';
                 document.getElementById('v2').innerText = rows[1] || '--';
                 document.getElementById('v3').innerText = rows[2] || '--';
-            } catch (e) { console.log(e); }
+            } catch (e) {}
         }
         setInterval(update, 3000);
         update();
