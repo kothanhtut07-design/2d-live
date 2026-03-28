@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { 
+            background-color: #000000; 
+            color: #ffffff; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: sans-serif;
+        }
+        .clock-container { text-align: center; }
+        .time-now-label { font-size: 20px; margin-bottom: 5px; }
+        .main-time { font-size: 70px; font-weight: bold; line-height: 1; }
+        .am-pm { font-size: 35px; vertical-align: super; }
+        .current-date { font-size: 20px; margin-top: 5px; }
+    </style>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+            let ampm = h >= 12 ? 'am' : 'am';
+            h = h % 12 || 12;
+            document.getElementById('live-time').innerHTML = 
+                `${h < 10 ? '0'+h : h}:${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}<span class="am-pm">${ampm}</span>`;
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            document.getElementById('live-date').innerText = `${days[now.getDay()]} - ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+        }
+        setInterval(updateClock, 1000);
+        window.onload = updateClock;
+    </script>
+</head>
+<body>
+    <div class="clock-container">
+        <div class="time-now-label">Time Now</div>
+        <div class="main-time" id="live-time">00:00:00<span class="am-pm">am</span></div>
+        <div class="current-date" id="live-date">---</div>
+    </div>
+</body>
+</html>
