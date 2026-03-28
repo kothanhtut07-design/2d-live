@@ -2,51 +2,24 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { background: transparent; margin: 0; padding: 10px; overflow: hidden; font-family: sans-serif; }
-        .live-container {
-            display: inline-flex;
-            background: rgba(0, 0, 0, 0.9);
-            border: 3px solid #00ff00;
-            border-radius: 12px;
-            padding: 15px 25px;
+        body { background: transparent; margin: 0; padding: 0; overflow: hidden; font-family: sans-serif; }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 65px; /* အဖြူကွက်ကြား အကွာအဝေး */
+            padding-top: 45px;
             align-items: center;
         }
-        .section { text-align: center; padding: 0 20px; }
-        .divider { width: 2px; height: 50px; background: #555; }
-        .title { font-size: 16px; color: #00ff00; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
-        .val { font-size: 60px; color: #ffffff; font-weight: bold; line-height: 1; }
-    </style>
-    <script>
-        const sheetID = '1WTAqnW15uaT_Cr-9pcr8zTlBxCM6WXm3yV2dK4Iymlg';
-        const csvURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
-
-        async function updateData() {
-            try {
-                const response = await fetch(csvURL + '&cache=' + Date.now());
-                const data = await response.text();
-                const rows = data.split('\n').map(row => row.replace(/"/g, '').trim());
-                
-                document.getElementById('set').innerText = rows[0] || '---';
-                document.getElementById('live').innerText = rows[1] || '--';
-                document.getElementById('twoD').innerText = rows[2] || '--';
-            } catch (error) {
-                console.log('Error fetching data');
-            }
+        .item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 350px;
         }
-
-        setInterval(updateData, 3000);
-        updateData();
-    </script>
-</head>
-<body>
-    <div class="live-container">
-        <div class="section"><div class="title">SET</div><div id="set" class="val">---</div></div>
-        <div class="divider"></div>
-        <div class="section"><div class="title">LIVE</div><div id="live" class="val" style="color:#ffff00;">--</div></div>
-        <div class="divider"></div>
-        <div class="section"><div class="title">2D</div><div id="twoD" class="val" style="color:#00ffff;">--</div></div>
-    </div>
-</body>
-</html>
+        /* ခေါင်းစဉ်စာသား အရွယ်အစားနှင့် အရောင် */
+        .title { font-size: 18px; color: #333; font-weight: bold; margin-bottom: 2px; }
+        /* ဂဏန်းစာသား အရွယ်အစား */
+        .val { font-size: 75px; font-
+              
